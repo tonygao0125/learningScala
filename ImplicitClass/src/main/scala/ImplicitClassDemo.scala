@@ -16,10 +16,15 @@ object ImplicitClassDemo {
    since aString is a string, so it will first go to search for built-in string functions, if the function is not
    available, then it will proceed to search if there any implicit class that define such function aString.nthChar()
    */
+
+    // no need instantiation like
     var aString = "Hello World!"
     println(aString.nthChar(4))
     println(aString.nthChar(3))
 
+    // if instantiation
+    var bString = new StringFunc(s = "my name is gaoshuai")
+    println(bString.nthChar(3))
   }
 
 }

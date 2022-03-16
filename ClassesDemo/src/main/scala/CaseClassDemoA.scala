@@ -21,7 +21,9 @@ object CaseClassDemoA {
     println("print the name of the car: " + bmw.name)
     bmw.printDetails()
 
-    bmw match {case Car(a, b) => println(a, b)}  // 3. There is unapply method, used for matching
+    // 3. There is unapply method, used for matching, match result is audi not bmw
+    val audi = Car("Audi", "R8")
+    audi match {case Car(a, b) => println("match result is " + a, b)}
 
     // 4. Autogenerate copy method
     val mercedes  = bmw.copy(name = "mercedes") // Make a bmw copy - mercedes with name "mercedes" but model remain same
