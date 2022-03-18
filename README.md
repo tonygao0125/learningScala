@@ -1,4 +1,4 @@
-# learningScala </font>
+# learningScala
 
 ## Day11 - Execptional Handling
 ### Definition
