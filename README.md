@@ -1,5 +1,6 @@
 # learningScala
 
+---
 ## Day11 - Execptional Handling
 ### Definition
 *One of the effective means to **handle the runtime errors** so that the regular flow of the application can be preserved.*
@@ -43,3 +44,53 @@ Exception Handling in Java is very similar to Scala. But Java have two types exc
   2. Try (with predifined Class)...Success/Failure...
   3. Catch object 
 
+---
+## Day12 - Traits, Value Class & Universal Traits
+### Definition
+- Traits encapsulates methods and fields definition. 
+- Trait is very similar to class, it's defined by key word - trait. 
+- Cannot create the object intance for trait.
+- It's only used for inheritance purpose.
+- **In class, one child class cannot extends multiple parent classes. However, in trait, one child class can extends multiple traits.**
+
+### Example 1
+```
+trait xyz {
+      var x = 10
+      def add() = {1 + 2}
+      };
+      
+class xyz1 extends xyz   // create a child class xyz1 inherit the trait xyz, whatever available in trait will be available in xyz1. 
+```
+
+### Example 2
+***Traits can have unimplemented methods, but unimplemented methods should be implemented in the class extending the given trait***
+```
+trait Car {
+  def engine() {println("1000cc")}
+  def wheel()                             // wheel() here is unimlemented method
+  def breaks()                            // breaks() here is unimlemented method
+}
+
+class mercedes extends Car{
+  def engine() {println("2000cc")}.       // overwrite the method in parent class if the method body was already present
+  def wheel() {print("wheels")}           // wheel() body must be implemented in the child class extends the trait
+  def breaks() {print("Disk brekas")}     // breaks() boydy must be implemented in the child class extends the trait
+}
+```
+
+### Example 3
+***Multiple inheritance from trait***
+```diff
+trait Vehicle{
+  def breaks{print("a")}
+}
+
+trait Car{
+  def breaks{print("b")}
+}
+
+class Mercedes extends Vehicle with Car
+
++ In multiple inheritance case, Mercedes class inherit the breaks method from the last trait.
+```
