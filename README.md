@@ -67,15 +67,15 @@ class xyz1 extends xyz   // create a child class xyz1 inherit the trait xyz, wha
 ***Traits can have unimplemented methods, but unimplemented methods should be implemented in the class extending the given trait***
 ```
 trait Car {
-  def engine() {println("1000cc")}
+  def engine()= {println("1000cc")}
   def wheel()                             // wheel() here is unimlemented method
   def breaks()                            // breaks() here is unimlemented method
 }
 
 class mercedes extends Car{
-  def engine() {println("2000cc")}.       // overwrite the method in parent class if the method body was already present
-  def wheel() {print("wheels")}           // wheel() body must be implemented in the child class extends the trait
-  def breaks() {print("Disk brekas")}     // breaks() boydy must be implemented in the child class extends the trait
+  def engine()= {println("2000cc")}.       // overwrite the method in parent class if the method body was already present
+  def wheel()= {print("wheels")}           // wheel() body must be implemented in the child class extends the trait
+  def breaks()= {print("Disk brekas")}     // breaks() boydy must be implemented in the child class extends the trait
 }
 ```
 
@@ -83,14 +83,24 @@ class mercedes extends Car{
 ***Multiple inheritance from trait***
 ```diff
 trait Vehicle{
-  def breaks{print("a")}
+  def breaks()= {print("a")}
 }
 
 trait Car{
-  def breaks{print("b")}
+  def breaks()= {print("b")}
 }
 
-class Mercedes extends Vehicle with Car
+class Mercedes extends Vehicle with Car {
+!  override def breaks(): Unit = super.breaks()      // if same methods present for multiple trait, then the child class extending them must have
+                                                     // override...super... statement. And, the trait extended lastly will be executed (Car here).
+}
+
+object DemoExample3 {
+  def main(args: Array[String]): Unit = {
+    val car1 = new Mercedes
++   car1.breaks()                                    // The breaks() method from trait Car will be executed here
+}
+}
 
 + In multiple inheritance case, Mercedes class inherit the breaks method from the last trait.
 ```
