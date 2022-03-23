@@ -230,3 +230,114 @@ var num = Array(25, 35, 50)
     var newMarks2 = marks.map(_+20)    //short hand notation: using _, even we don't need mark
     println("newMarks are " + newMarks.mkString(", "))
 ```
+---
+## Day-14 ~16 Functional Programming
+### Definition of Functions
+Groups of statements for performing secific tasks, it is used to easy readability and reuse the code for multiple times.
+
+### Method vs Function
+- Method is defined inside class with name, signature and bytecode. Always need an object instance to call the methods. 
+- Function is defined independent of class, it may or may not have name (anonymous function). In Scala, even operators can be defined as functions.
+
+### How to define a function
+```diff
+def functionName([args/parameters]):[return type] = {
+
+Function Body
+
+return [variable]
+}
+```
+### Recursive Function
+```diff
+object DemoERecursiveFunctions {
+
+  def factorial (n: Int): Int={
+    if (n<= 1)
+      1
+    else
+      n * factorial(n-1)                            // Recursive functions. Calls itself
+  }
+
+  def main(args: Array[String]): Unit = {
+    var result = factorial(5)
+    println(result)
+  }
+}
+
+```
+### Anonymous Function
+- Functions without a name and def keyword.
+- First Class Function... Pass Function as parameter and define function values
+```diff
+object DemoFAnonymousFunctions {
+  def main(args: Array[String]): Unit = {
+    println("The increments function output is " + increments(5))
+    printHelloWorld()
+    add(2, 3)
+  }
+
+  //Example 1: Anonymous Function with 1 input parameter and 1 output parameter
+  // Using function value/ Anonymous functions
+  var increments = (x: Int)=> x +1            // define an anonymous function as a variable
+
+  //Example 2: Anonymous Function with 0 input parameter and 0 output parameter
+  // Using function value/ Anonymous functions
+  var printHelloWorld = () => println("hello world")
+
+  //Example 3: Anonymous Function with 2 input parameters and 1 output parameter
+  var add = (x: Int, y: Int) => print(s"The sum is ${x+y}")
+}
+```
+
+### Function call by Function
+- Function as a parameter of another function
+
+```diff
+object DemoIFunctionCallByName {
+  def main(args: Array[String]): Unit = {
+    printValue(increment())        // pass a function as a parameter to another function
+    printValue(decrement())        // pass decrement() function to m
+  }
+  def printValue (m: => Int) = { //increment() is function m here, pass no parameter so " "=> Int
+    println("Addition value is " + m)
+  }
+  def increment() = {
+    var y = 2
+    println("Value of y is " + y)
+    var z = y + 1
+    println("Value of y after incrementing is " + z)
+    z
+  }
+
+  def decrement() = {
+    var y = 2
+    println("Value of y is " + y)
+    var z = y - 1
+    println("Value of y after decrementing is " + z)
+    z
+  }
+}
+
+object DemoJFunctionCallByName {
+  def main(args: Array[String]): Unit = {
+    printValue(increment, 2)        // pass a function as a parameter to another function
+    printValue(decrement, 2)        // pass decrement() function to m
+  }
+  def printValue (m:Int => Int, x: Int) = { //increment() is function m here, pass no parameter so " "=> Int
+    println("Addition value is " + m(x))
+  }
+  def increment(y: Int) = {
+    println("Value of y is " + y)
+    var z = y + 1
+    println("Value of y after incrementing is " + z)
+    z
+  }
+  def decrement(y: Int) = {
+    println("Value of y is " + y)
+    var z = y - 1
+    println("Value of y after decrementing is " + z)
+    z
+  }
+}
+```
