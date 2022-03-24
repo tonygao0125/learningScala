@@ -415,3 +415,16 @@ object Curry
     }
 }
 ```
+### Closure
+A closure is a function, whose return value depends on the value of one or more variables declared outside this function.
+```diff
+object Demo {
+   def main(args: Array[String]) {
+      println( "multiplier(1) value = " +  multiplier(1) )
+      println( "multiplier(2) value = " +  multiplier(2) )
+   }
+   var factor = 3
+   val multiplier = (i:Int) => i * factor
+}
+```
+Now factor has a reference to a variable outside the function but in the enclosing scope. The function references factor and reads its current value each time. If a function has no external references, then it is trivially closed over itself. No external context is required.
