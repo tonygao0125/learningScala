@@ -341,3 +341,77 @@ object DemoJFunctionCallByName {
   }
 }
 ```
+### Function by Name
+```
+object DemoMFunctionByName {
+  def main(args: Array[String]): Unit = {
+  
+    println("Main Function: " + exec(time()))     
+  }
+  def time(): Long = {
+    println("Inside the time function")
+    return System.nanoTime()
+  }
+
+  // function by name
+  def exec(t: => Long): Unit = {
+    println("Inside exec function")
+    println("Time: " + t)                        // time() won't be evaluated until name t is called.  // 1st Reference
+    println("Exiting from time function")
+    return t                                      // 2nd Reference
+  }
+}
+```
+- It will first execute the OUTSIDE function "exec()" and then execute the INSIDE function "time()" every time
+t is being referred.
+- Since OUTSIDE function "exec()" got executed first, it calls INSIDE function "time()"using the
+REFERENCED VARIABLE t, it is called as "Function by Name".
+
+### Partically Applied Function
+- Scala, like many other functional languages, allows developers to apply functions partially. What this means is that, when applying a function, a developer does not pass in all the arguments defined by the function. But provides only for some of them, leaving remaining parameters to be passed later.
+- Once you have provided the required initial parameters, what you get back is a new function whose parameter list only contains those parameters from the original function that were left blank.
+- We have reduced a method that used to accept multiple arguments to a function that accepts only a single argument, thus making it easier for consumers to use the method.
+- We can safeguard our code by exposing only a partially applied function so that no one else can pass in incorrect arguments by mistake.
+- These arguments which are not passed to function we use underscore ( _ ) as placeholder.
+```diff
+object DemoOPartiallyApplidFunctions {
+  def main(args: Array[String]): Unit = {
+//    fourWheeler("Mercedes", "Car", 200000)
+    car("Mercedes") //Only need to pass partial parameter, i.e., vehicleName here.
+  }
+  // 3. Partially applied function
+  val car = fourWheeler(_:String, "Car", 200000) // placeholder underscore
+
+  // 2. Normally implemented function (defined by anonymous function)
+  val fourWheeler = (vehicleName: String, vehicleType: String, vehicleCost: Int) => {
+    println("Vehicle Name is : " + vehicleName +
+            "Vehicle Type is: " + vehicleType +
+            "Vehicle Cost is: " + vehicleCost)
+    }
+```
+### Currying Function
+Currying transforms a function that takes multiple parameters into a chain of functions, each taking a single parameter.
+#### Syntax
+- ***def strcat(s1: String)(s2: String) = s1 + s2***
+- ***def strcat(s1: String) = (s2: String) => s1 + s2***
+```diff
+// Scala program add two numbers
+// using Currying function
+  
+object Curry
+{
+    // transforming the function that 
+    // takes two(multiple) arguments into 
+    // a function that takes one(single) argument.
+    def add2(a: Int) = (b: Int) => a + b;                    // Currying function
+  
+    // Main method
+    def main(args: Array[String])
+    {
+        println(add2(20)(19));
+        
+        val sum = add2(29)_;                                  // Partially Applied Function
+        println(sum(5));  
+    }
+}
+```
