@@ -428,3 +428,19 @@ object Demo {
 }
 ```
 Now factor has a reference to a variable outside the function but in the enclosing scope. The function references factor and reads its current value each time. If a function has no external references, then it is trivially closed over itself. No external context is required.
+
+---
+## Collections
+Scala has a rich set of collection library. Collections are containers of things. Those containers can be sequenced, linear sets of items like List, Tuple, Option, Map, etc. The collections may have an arbitrary number of elements or be bounded to zero or one element (e.g., Option).
+
+### strict vs lazy
+- <ins> strict collections </inst>: Whenever, the instance of a collections in scala(except for the Streams) is created, it creates the strict version of the collection which means memory is allocated at the same time.
+- <inst> lazy collections </ins>: Lazy collections have elements that may not consume memory until they are accessed, like Ranges. We can create and transform streams without computing their elements. Those might never be computed unless we iterate through them. We say that streams are lazy.
+- Scala collections are by default strict in all their transformers, except for Stream, which implements all its transformer methods lazily. However, there is a systematic way to turn every collection into a lazy one and vice versa, which is based on collection views. A view is a special kind of collection that represents some base collection, but implements all transformers lazily. Views take very little space in memory, it contains only the definition, not the copy of all the data that it represents.
+- Whenever a view in the collection is created, it makes that collection as a lazy collection which means memory allocation would not be done at the time of initialization, instead, it would take place whenever they are actually accessed or some transformations are applied on them.
+
+### Mutable vs Immutable
+Scala collections systematically distinguish between mutable and immutable collections. All collection classes are found in the package scala.collection or one of its sub-packages mutable, immutable, and generic. Most collection classes needed by client code exist in three variants, which are located in packages scala.collection, scala.collection.immutable, and scala.collection.mutable, respectively. Each variant has different characteristics with respect to mutability.
+- A mutable collection can be updated or extended in place. This means you can change, add, or remove elements of a collection as a side effect.
+- Immutable collections, by contrast, never change. You have still operations that simulate additions, removals, or updates, but those operations will in each case return a new collection and leave the old collection unchanged.
+- ***The immutable collection types are defined in the package scala.collection.immutables. However, they have aliases in the scala package, so we can use them right away without an extra import.To define a mutable collection, we need to import from scala.collection.mutable.***
