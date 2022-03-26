@@ -21,7 +21,7 @@
 - An exception is an unwanted or unexpected event, which occurs during the execution of a program i.e at run time, that disrupts the normal flow of the program’s instructions.
 - Exceptions can be caught and handled by the program. When an exception occurs within a method, it creates an object. This object is called the exception object. It contains information about the exception such as the name and description of the exception and the state of the program when the exception occurred.
 - Exceptional Handling 
-![alt text](https://qph.fs.quoracdn.net/main-qimg-f8158a86d1c25835cb09137a955295d3-pjlq)
+- ![alt text](https://qph.fs.quoracdn.net/main-qimg-f8158a86d1c25835cb09137a955295d3-pjlq)
 
 ### Reasons
 - Invalid user input
@@ -444,3 +444,26 @@ Scala collections systematically distinguish between mutable and immutable colle
 - A mutable collection can be updated or extended in place. This means you can change, add, or remove elements of a collection as a side effect.
 - Immutable collections, by contrast, never change. You have still operations that simulate additions, removals, or updates, but those operations will in each case return a new collection and leave the old collection unchanged.
 - ***The immutable collection types are defined in the package scala.collection.immutables. However, they have aliases in the scala package, so we can use them right away without an extra import.To define a mutable collection, we need to import from scala.collection.mutable.***
+
+### Scala Collections Hierarchy
+1. High level of all collections in package scala.collection
+- ![alt text](https://docs.scala-lang.org/resources/images/tour/collections-diagram.svg)
+2. All collections in package **scala.collection.immutable**
+- ![alt text](https://docs.scala-lang.org/resources/images/tour/collections-immutable-diagram.svg)
+3. All collections in package **scala.collection.mutable**
+- ![alt text](https://docs.scala-lang.org/resources/images/tour/collections-mutable-diagram.svg)
+
+### List
+In Scala, the list represents a linked list. Specific to Scala, a list is a collection which contains immutable data, which means that once the list is created, then it can not be altered.
+- **Immutable** - cannot change length or contents inside the list, but we can reassgin to a new list object (different memory address). 
+- **Linked** - Linked list is linear data structure where elements are not sorted and there memory locations are not in sequence.So liked list has Struct called Node which hold data and reference to the next element.
+    - advantage of linked list: fast access for sequencial operation 
+    - disadvantage of linked list: if do random access, it will be slow. 
+
+### Set
+- Sets are Iterables that contain no duplicate elements (not necessary to be same type). 
+- Sets wont't keep the sequence even if we create it in sequence.  
+- <ins>Scala has both mutable and immutable Set classes.</ins>
+1. ***Immutable*** - by default
+2. ***Mutable*** - need to import scala.collection.mutable.set
+
