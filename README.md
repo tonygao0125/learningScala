@@ -467,3 +467,9 @@ In Scala, the list represents a linked list. Specific to Scala, a list is a coll
 1. ***Immutable*** - by default
 2. ***Mutable*** - need to import scala.collection.mutable.set
 
+---
+## Maps
+- Scala map is a collection of key/value pairs. Any value can be retrieved based on its key. Keys are unique in the Map, but values need not be unique. Maps are also called Hash tables. 
+- There are two kinds of Maps, the immutable and the mutable. The difference between mutable and immutable objects is that when an object is immutable, the object itself can't be changed.
+- By default, Scala uses the immutable Map. If you want to use the mutable Map, you'll have to import ***scala.collection.mutable.Map*** class explicitly. **If you want to use both mutable and immutable Maps in the same, then you can continue to refer to the immutable Map as Map but you can refer to the mutable set as mutable.Map.**
+- A Map is an Iterable consisting of pairs of keys and values (also named mappings or associations). Scala’s Predef object offers an implicit conversion that lets you write key -> value as an alternate syntax for the pair (key, value). For instance Map("x" -> 24, "y" -> 25, "z" -> 26) means exactly the same as Map(("x", 24), ("y", 25), ("z", 26)), but reads better.
