@@ -625,3 +625,17 @@ An iterator is a way to access elements of a collection one-by-one. It resembles
     println(iterator6._1.next())    // iterator6._1 and _2 are both iterators
     println(iterator6._2.next())
 ```
+---
+## File Handling
+Read and Write are common operations, sometimes we need libraries.
+
+### Read from Command Line by using *scala.io._*
+```
+println("Enter you name")
++   var name = scala.io.StdIn.readLine()
+    println("Hello " + name)
+
++   println("Enter your Phone Number")
+    var number = scala.io.StdIn.readLine()
+    println("Your Phone number is " + number)
+```
