@@ -473,3 +473,155 @@ In Scala, the list represents a linked list. Specific to Scala, a list is a coll
 - There are two kinds of Maps, the immutable and the mutable. The difference between mutable and immutable objects is that when an object is immutable, the object itself can't be changed.
 - By default, Scala uses the immutable Map. If you want to use the mutable Map, you'll have to import ***scala.collection.mutable.Map*** class explicitly. **If you want to use both mutable and immutable Maps in the same, then you can continue to refer to the immutable Map as Map but you can refer to the mutable set as mutable.Map.**
 - A Map is an Iterable consisting of pairs of keys and values (also named mappings or associations). Scala’s Predef object offers an implicit conversion that lets you write key -> value as an alternate syntax for the pair (key, value). For instance Map("x" -> 24, "y" -> 25, "z" -> 26) means exactly the same as Map(("x", 24), ("y", 25), ("z", 26)), but reads better.
+
+---
+## Tuples
+- Not a collection
+- In Scala, a tuple is a value that contains a fixed number of elements, each with its own type. Tuples are immutable.
+- Tuples are especially handy for returning multiple values from a method.
+- Fixed number of elements (From 1 to 22)
+
+### Define a Tuple
+```diff
+    // 1. Define a tuple
+    val tuple1 = (1, "String Data", 2.3)    //Define a tuple, tuple can contains different data types.
+    println("The tuple1 is " + tuple1 + " ,  it's class is " + tuple1.getClass)
+
+    // 2. Define a tuple - Another approach, specify the correct number of elements
+    // Tuple5 indicates a 5 elements Class
+    val tuple2 = new Tuple5(1, "String data", 2.3, "k", "%#$@")  
+    println(tuple2)
+
+    // 3. Define a tuple with 5 elements(Tuple5 instance object) - with keyword arguments
+    // instance constructor: new Tuple5(_1: T1, _2: T2,  _3: T3, _4: T4, _5: T5)
+    val tuple2_full = new Tuple5(_1 =1, _2="String data", _3=2.3, _4="K", _5= "%#$@")
+    println(tuple2_full)
+```
+### Some methods of Tuple
+```diff
+    // 5. Access elements in Tuple using "productIterator" method
+    tuple3.productIterator.foreach(i => println("Value is " + i))
+
+    // 6. convert tuple into single String
+    println(tuple3.toString())
+
+    // 7. swap method for Tuple2 - swap the 2 elements
+    val tuple_2 = (1, "String data")
+    println(tuple_2.swap)
+```
+
+### List of Tuples
+```diff
+// Define a List with Tuple elements
+    val carList = List(("Mercedes", "High Range"), ("Suzuki", "Mid Range"), ("Jaguar", "High Range"),
+                        ("BMW", "High Range"))
+    println(carList)
+    carList.foreach {
+      case("Jaguar", range) => println("Car is Jaguar and the range is " + range)
+      case("Suzuki", range) => println("Car is Suzuki and the range is " + range)
+      case _ =>           //means in other cases do nothing // or written as "case (_, _) => ()"
+      }
+```
+***NOTE: TUPLE IS NOT MUCH USED. INSTEAD OF TUPLE MOST PEOPLE WILL USE CASE CLASS.***
+#### For Example
+```diff
+-  // define a tuple for student object, but it's difficult for other people to understand what is abc and xyz
+    val student1 = (1, "abc", "xyz") 
+
++  // If we use case Class: easier for ppl to understand what's the object and arguments
+    case class Student(rollNo: Int, firstName: String, lastName: String)
+    val student2 = Student(2, "Jim", "Green")
+    println(student2)
+```
+---
+## Options
+**Scala Option[T] is a container for zero or one element of a given type. An Option[T] can be either Some[T] or None object, which represents a missing value.** *For instance, the get method of Scala's Map produces Some(value) if a value corresponding to a given key has been found, or None if the given key is not defined in the Map.*
+- Not a collection
+- Option[T] => Some[T] or None
+- Option is a data structure that represents optionality, as the name suggests. Whenever a computation may not return a value, you can return an Option.
+- Similar to HashMap in Java, which gives value or Null. But in Scala, it gives value or None (***<ins>Why using None over Null?</ins> Answer: None is an object, Scala is pure object-oriented, OOP language. Everything needs to be an object***)
+
+### Option vs Some
+Some extends Option, so it inherits everything except get and isEmpty (and some other methods implemented by a case class).
+
+### Define an Option
+```diff
+//define a Int type Option
+    var option1: Option[Int] = Some(10)   // if specify the Option class type, then it's either be Some or None
+    var option2 = Some(11)                // if don't specify the Option class type, then it's Some type by default
+   // Define none option
+    var noneOption: Option[String] = None
+    var noneOption2  = None
+```
+***Change Some to None***
+```diff
+    var option3: Option[Int] = Some(12) // option3 defined as either Some or None
++   option3 = None                     // Can re-assign
+    println(option3.getClass)
+-   // option3: Option[Int] = None    // ERROR ! But cannot re-assign with data type
+
+    var option4 = Some(12)           // option4 defined as Some, CANNOT BE CHANGTED TO NONE ANY MORE
+-   //option4 = None                 // ERROR ! Because Some cannot be None
+-   option4 : Option[Int] = None    // ERROR !
+```
+---
+## Iterator
+An iterator is a way to access elements of a collection one-by-one. It resembles to a collection in terms of syntax but works differently in terms of functionality. An iterator defined for any collection does not load the entire collection into the memory but loads elements one after the other. Therefore, iterators are useful when the data is too large for the memory.
+- Not a Collection
+- It helps in providing methods to iterate over the elements inside the collections
+- next() -> print the next element. 
+- hasNext -> check if next element is present
+
+### next() and hasNext
+```diff
+// Define a iterator
+    var iterator1 = Iterator[String]("Hello World", "Hello India", "Hello Singapore", "Hello China")
+    println(iterator1)
+    // next() gives the next element
+    println(iterator1.next())           // World
+    println(iterator1.next())           // India
+    println(iterator1.next())           // Singapore
+    println(iterator1.next())           // China
+-   // println(iterator1.next())        // gives error, becuase the iterator becomes empty
+    // If no element in Iterator next() will give error. Instead first check using hasNext()
+    println(iterator1.hasNext)
+```
+
+### max and min
+```diff
+    // max and min
+    // iterator1.max give an error because we've gone through iterator1 to the end already
+    var iterator2 = Iterator[String]("Hello World", "Hello India", "Hello Singapore", "Hello China")
+    println(iterator2.max)
+-   // iterator2.min        // gives ERROR!
+@@  // once the a method is used on the iterator, then it's gone through iterator to end. iterator1 becomes empty@@
+
++   // we must refine the iterator (reset the index to 0), before using the method again
+    var iterator3 = Iterator[String]("Hello World", "Hello India", "Hello Singapore", "Hello China")
+    println(iterator3.length)
+    println(iterator3.min)
+    println(iterator3.length)       // iterator3 becomes empty after using a method on it.
+```
+
+### Iterator vs BufferedIterator
+```diff
++   // Buffer Iterator - buffer the data into memory
+    var iterator4 = Iterator[String]("Hello World", "Hello India", "Hello Singapore", "Hello China")
+    var bufferedIterator4 = iterator4.buffered
+    println(bufferedIterator4.head)         // additional head method for bufferedIterator
+    println(bufferedIterator4.head)
+    println(bufferedIterator4.next())       // World
+    println(bufferedIterator4.next())       // India
+    println(bufferedIterator4.next())       // Singapore
+    println(bufferedIterator4.next())       // China
+-   // println(bufferedIterator4.next())    // Error since it becomes Emtpy
+```
+### Duplicate method
+```diff
+    // duplicate
+    var iterator5 = Iterator[String]("Hello World", "Hello India", "Hello Singapore", "Hello China")
+    var iterator6 = iterator5.duplicate
++   println(iterator6.getClass)     // duplicate of the iterator creates Tuple2(_1:iterator, _2:iterator)
+    println(iterator6._1.next())    // iterator6._1 and _2 are both iterators
+    println(iterator6._2.next())
+```
