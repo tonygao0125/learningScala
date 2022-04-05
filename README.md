@@ -629,9 +629,9 @@ An iterator is a way to access elements of a collection one-by-one. It resembles
 ## File Handling
 Read and Write are common operations, sometimes we need libraries.
 
-### Read from Command Line by using *scala.io._*
+### Read from Command Line by using *scala.io.StdIn*
 ```
-println("Enter you name")
+    println("Enter you name")
 +   var name = scala.io.StdIn.readLine()
     println("Hello " + name)
 
@@ -639,3 +639,114 @@ println("Enter you name")
     var number = scala.io.StdIn.readLine()
     println("Your Phone number is " + number)
 ```
+### ~~Read from Command Line by using Consoler.readLine (Obsolete/deprecated)~~
+
+ ~~var age = Console.readLine()~~
+
+### Read Flat File
+```
+    var working_dir = System.getProperty("user.dir")+ "/src/main/scala/sampleData.txt"
+    println("the current working directory is: " +  working_dir)
+    // read flat file
+    println("------------------Option1-------------------")
+    scala.io.Source.fromFile(working_dir).foreach(line => print(line))
+
+    println()
+    println("------------------Option2-------------------")
+    val lines = scala.io.Source.fromFile(working_dir).getLines()
+    for(l<- lines) println(l)
+```
+Read CSV file
+```diff
+    val sampleCSVFile = System.getProperty("user.dir") + "/src/main/scala/sampleCSVFile.csv"
+
+    val lines = scala.io.Source.fromFile(sampleCSVFile).getLines()
+    //lines.foreach(line => println(line))
+
+    for (line <- lines) {
+      if (line != "name,address,age")
+      {
++       val Array(name: String,address: String,age: String) = line.split(',')
+        println("Name is " + name +
+                ". Address is " + address +
+                ". Age is " + age + ".")
+      }
+```
+
+### Write File - PrintWriter vs FileWriter vs BufferedWriter
+```
+import java.io.{File, FileWriter, PrintWriter, BufferedWriter}
+
+    var output_dir1 = System.getProperty("user.dir")+ "/src/main/scala/outputFile1.txt"
+    var output_dir2 = System.getProperty("user.dir")+ "/src/main/scala/outputFile2.txt"
+    var output_dir3 = System.getProperty("user.dir")+ "/src/main/scala/outputFile3.txt"
+
+
+    // --------------------option 1- using PrintWriter---------------------------------
+    // step 1: Create instance of File
+    val outFile1 = new File(output_dir1)
+    // step 2: Create instance of PrintWriter(File instance)
+    val outWriter1 = new PrintWriter(outFile1) // we can also use output_dir instead of outFile1, but pathname and File different
+    // step 3: write into file
+    outWriter1.write("Hello Hello Hello")
+    outWriter1.write("China Singapore Russia")
+    // step 4: Close file
+    outWriter1.close()                         // remember to close after write
+    // step 5 : check Error is needed for PrintWriter method
+    println("Error is: " + outWriter1.checkError()) // if got error in writer -> true
+
+    // --------------------option 2- using FileWriter---------------------------------
+    // step 1: Create instance of File
+    val outFile2 = new File(output_dir2)
+    // step 2: Create instance of FileWriter(File instance)
+    val outWriter2 = new FileWriter(outFile2)
+    // step 3: write into file
+    outWriter2.write("Hello Hello Hello\n")
+    outWriter2.write("China Singapore Russia\n")
+    // step 4: Close file
+    outWriter2.flush()      // optional
+    outWriter2.close()
+
+    // --------------------option 3- using BufferedWriter---------------------------------
+    // step 1: Create instance of File
+    val outFile3 = new File(output_dir3)
+    // step 2: Create instance of FileWriter(File instance)
+    val outWriter3 = new FileWriter(outFile3)
+    // step 3: Create instance of BufferedWriter(FileWriter instance)
+    val bufferedWriter3 = new BufferedWriter(outWriter3)
+    // step 4: write into file
+    bufferedWriter3.write("Hello Hello Hello\n")
+    bufferedWriter3.write("China Singapore Russia\n")
+    // step 5: Close file
+    bufferedWriter3.flush()     // optional
+    bufferedWriter3.close()
+```
+
+1. Exception Handling:
+    - PrintWriter => Error handling using checkError method
+    - FileWriter + BufferedWriter => Can use try catch block
+2. Flushing the data
+    - PrintWriter => Costly/Slow, it flush
+    - FileWriter + BufferedWriter => Less Costly/Fast, You have to flush manually OR it will be flush when you close it.
+    - FileWriter is more in favored.
+
+
+### Using Serialization
+#### Problem
+***You want to serialize a Scala class and save it as a file, or send it across a network.***
+#### Solution
+The general approach is the same as Java, but the syntax to make a class serializable is different.
+To make a Scala class serializable, **extend the Serializable trait and add the @SerialVersionUID annotation to the class**:
+```
+@SerialVersionUID(100L)
+class Stock(var symbol: String, var price: BigDecimal)
+extends Serializable {
+  // code here ...
+}
+```
+Because Serializable is a trait, you can mix it into a class, even if your class already extends another class:
+```
+@SerialVersionUID(114L)
+class Employee extends Person with Serializable ...
+```
+***SerialVersionUID of serialization and deserialization must be same, it works as a access key, otherwise the data cannot be decoded. 
